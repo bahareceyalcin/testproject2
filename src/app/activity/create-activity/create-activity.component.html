@@ -1,0 +1,123 @@
+   <!-- page content -->
+   <div class="right_col" role="main" style="min-height: 985px;">
+      <div class="">
+        <div class="page-title">
+          <div class="title_left">
+            <h3 (click)="backActivity()">Aktiviteler / Yeni</h3>
+          </div>
+        </div>
+  
+        <div class="clearfix"></div>
+  
+        <div class="">
+          <div class="col-md-12 col-sm-12 col-xs-12" style="padding-left: 50px;padding-top: 30px;">
+
+            <div class="x_panel">              
+              <div class="x_content">       
+                <form [formGroup]="newActivityForm" (ngSubmit)="onSubmit()">   
+                  
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-12 col-xs-12">Müşteri No</label>
+                        <div class="col-md-10 col-sm-12 col-xs-12">
+                          <select class="form-control" #aprCodeInput>
+                            <option *ngFor="let apr of aprs" 
+                            [value]="apr">
+                              {{apr}}
+                            </option>                          
+                          </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-12 col-xs-12">Aktivite Tipi</label>
+                        <div class="col-md-10 col-sm-12 col-xs-12">
+                          <select class="form-control" (change)="changedAgr($event.target.value)" #activityTypeInput>
+                            <option *ngFor="let act of actTypes" 
+                              [value]="act['activityType']">
+                              {{act['activityTypeName']}}
+                            </option>                          
+                          </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-12 col-xs-12">Aktivite Kaynak Tipi</label>
+                        <div class="col-md-10 col-sm-12 col-xs-12">
+                          <select class="form-control select-act-src" (change)="changedSrc($event.target.value)" #activitySrcInput>
+                            <option *ngFor="let src of actSrcTypes"
+                              [value]="src['activitySrcType']">
+                                {{src['activitySrcTypeName']}}
+                            </option>                          
+                          </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-12 col-xs-12">Aktivite Sonuç Kodu</label>
+                        <div class="col-md-10 col-sm-12 col-xs-12">
+                          <select class="form-control" #activityResultInput>
+                            <option *ngFor="let res of actResultTypes"
+                            [value]="res['activityResultType']">
+                              {{res['activityResultTypeName']}}
+                            </option>                          
+                          </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-12 col-xs-12">Telefon</label>
+                        <div class="col-md-10 col-sm-12 col-xs-12 has-feedback">
+                          <input type="text" class="form-control" placeholder="05xxxxxxxxx" #phoneInput>
+                          <span class="fa fa-phone form-control-feedback right" aria-hidden="true"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-12 col-xs-12">Başlangıç</label>
+                        <div class="col-md-10 has-feedback">
+                            <input type="text" class="form-control has-feedback-left" id="inputSuccess2" placeholder="(ss:dd)"
+                            #startTimeInput>
+                            <span class="fa fa-clock-o form-control-feedback left" aria-hidden="true"></span>
+                            </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-12 col-xs-12">Bitiş</label>
+                        <div class="col-md-10 has-feedback">
+                            <input type="text" class="form-control" id="inputSuccess3" placeholder="(ss:dd)"
+                            #endTimeInput>
+                            <span class="fa fa-clock-o form-control-feedback right" aria-hidden="true"></span>
+                            </div>
+                    </div>
+   
+                    
+                    
+                    <div class="form-group End">
+                        <label class="control-label col-md-2 col-sm-12 col-xs-12">Host Adı</label>
+                        <div class="col-md-10 col-sm-12 col-xs-12 form-group has-feedback">
+                          <input type="text" class="form-control" disabled="disabled" placeholder="Host Adı" value="10.132.104.115" #hostInput>
+                          <span class="fa fa-laptop form-control-feedback right" aria-hidden="true"></span>
+                        </div>
+                    </div>
+  
+                    <div class="form-group">
+                        <label class="control-label col-md-2 col-sm-12 col-xs-12">Notlar
+                        </label>
+                        <div class="col-md-10 col-sm-12 col-xs-12">
+                            <span class="required" style="color:red">*</span>
+                          <textarea class="form-control" rows="4" placeholder="Notlar"
+                          #notesInput></textarea>
+                          
+                        </div>
+                    </div>
+                    
+                    <div class="x_content">                        
+                        <button type="submit" class="btn btn-success" style="margin-left: 295px;
+                        margin-top: 30px;">Kaydet</button>
+                        <div class="alert alert-warning alert-dismissible fade in" role="alert" style="text-align: center" *ngIf="result != null">                            
+                            <strong>Kayıtlı protokol bulunmamaktadır.</strong>
+                        </div>
+                        <button type="button" class="btn btn-danger" (click)="backActivity()" style="margin-top:30px">İptal</button>
+                    </div>
+                  </form>
+              </div>
+            </div>
+          </div>
+      </div>
+      <div class="clearfix"></div>
+    </div>
+    <!-- /page content -->

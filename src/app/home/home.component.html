@@ -1,0 +1,94 @@
+<div class="right_col" role="main" style="min-height: 1000px;">
+  <div class="">
+    <div class="page-title">
+      <div class="title_left">
+        <h3> </h3>              
+        <div id="dashbord" class="container-fluid">
+          <div class="row slideanim">
+            <div class="col-sm-4 col-xs-12" id="customers">
+              <div type="button" class="panel panel-default text-center" routerLinkActive="active" routerLink="/customers">
+                <div class="panel-body">
+                    <div class="col-md-3">
+                        <i class="material-icons">people</i>
+                      </div>
+                      <div class="col-md-9">
+                          <h2>Borçlu</h2>
+                      </div> 
+                  <p><strong>{{numCustomer}}</strong></p>
+                </div>      
+              </div>  
+            </div>   
+            <div class="col-sm-4 col-xs-12" id="credits">
+              <div type="button" class="panel panel-default text-center" routerLinkActive="active" routerLink="/credits">                                                    
+                    <div class="panel-body">
+                        <div class="col-md-3">
+                          <i class="material-icons">credit_card</i>
+                        </div>
+                        <div class="col-md-9">    
+                            <h2>Kredi</h2>                         
+                        </div>  
+                        <p><strong>{{ numCredits }}</strong></p>
+                    </div> 
+              </div>
+            </div>           
+            <div class="col-sm-4 col-xs-12" id="collections">
+                <div type="button" class="panel panel-default text-center"  routerLinkActive="active" routerLink="/collections">
+                  <div class="panel-body">
+                    <div class="col-md-3">
+                      <i class="material-icons">business_center</i>
+                    </div>
+                    <div class="col-md-9">    
+                        <h2>Tahsilat</h2>                         
+                    </div>    
+                    <p><strong>{{ numCollection }}</strong></p>
+                  </div>        
+                </div>  
+            </div>            
+           </div>
+          <div class="row slideanim">
+            <div class="col-sm-4 col-xs-12" id="assets">
+              <div type="button" class="panel panel-default text-center" routerLinkActive="active" routerLink="/assets">
+                <div class="panel-body">
+                  <div class="col-md-3">
+                      <i class="material-icons">card_travel</i>
+                    </div>
+                    <div class="col-md-9"> 
+                        <h2>Mal Varlıkları</h2>             
+                    </div>  
+                    <p><strong>{{ numAsset }}</strong></p>
+                </div>
+              </div>      
+            </div>     
+            <div class="col-sm-4 col-xs-12" id="lawtasks">
+              <div type="button" class="panel panel-default text-center" routerLinkActive="active" routerLink="/customers">
+                  <div class="panel-body">
+                      <div class="col-md-3">
+                          <i class="material-icons">subject</i>
+                        </div>
+                        <div class="col-md-9"> 
+                            <h2>Yasal İşlemler</h2>             
+                        </div>  
+                      <p><strong>{{ numLawtask }}</strong></p>
+                  </div>
+              </div>  
+            </div>           
+            <div class="col-sm-4 col-xs-12" id="lawcase">
+              <div type="button" class="panel panel-default text-center" routerLinkActive="active" routerLink="/customers">
+                    <div class="panel-body">
+                        <div class="col-md-3">
+                            <i class="material-icons">folder_open</i>
+                          </div>
+                          <div class="col-md-9"> 
+                              <h2>Dava Dosyaları</h2>             
+                          </div> 
+                        <p><strong>{{ numLawcase }}</strong></p>
+                      </div>
+              </div>  
+            </div>            
+          </div>
+        </div>            
+      </div>
+    </div>         
+  </div>
+</div>
+   

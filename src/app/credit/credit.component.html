@@ -1,0 +1,41 @@
+   <!-- page content -->
+   <div class="right_col" role="main" style="min-height: 985px;">
+      <div class="">
+        <div class="page-title">
+          <div class="title_left" style="height: 40px; margin-left: 16px; margin-top: -20px;">
+            <h3>Krediler</h3>
+          </div>
+          <div class="">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+              <div class="x_panel">              
+                <div class="x_content">                                              
+                  <table id="datatable" class="table table-striped table-bordered">
+                      <thead>
+                        <tr>
+                          <th>bankAccountId</th> 
+                          <th>loanTypeName</th> 
+                          <th>bankAccountNo</th> 
+                          <th>bankName</th>  
+                          <th>inactiveFlag</th> 
+                        </tr>
+                      </thead>            
+                      <tbody>
+                        <tr *ngFor="let credit of allcredits; let i=index">
+                          <td>{{ credit['bankAccountId'] }}</td> 
+                          <td>{{ credit['loanTypeName'] }}</td>  
+                          <td>{{ credit['bankAccountNo'] }}</td>
+                          <td>{{ credit['bankName'] }}</td>
+                          <td>{{ credit['inactiveFlag'] }}</td>
+                        </tr>                       
+                      </tbody>
+                  </table>  
+                  <div class="alert alert-warning alert-dismissible fade in" role="alert" style="text-align: center" *ngIf="collections == 0 && modalType == 'collections'">                            
+                      <strong>Kayıtlı tahsilat bulunmamaktadır.</strong>
+                  </div>                                                     
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>

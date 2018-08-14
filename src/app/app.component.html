@@ -1,0 +1,43 @@
+<!-- navbar -->
+  <nav class="navbar navbar-inverse">
+    <div id="navbar-container-fluid" class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="/home">Güven Varlık Yönetim</a>
+      </div>
+      <ul class="nav navbar-nav">
+        <!-- <li><a href="/home">Anasayfa</a></li> -->
+        <!-- <li><a href="#">Page 1</a></li>
+        <li><a href="#">Page 2</a></li> -->
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#"><span class="glyphicon glyphicon-user"></span>Giriş</a></li>
+        <li><a (click)="Logout()"><span class="glyphicon glyphicon-log-in"></span>Logout</a></li>
+      </ul>
+    </div>
+  </nav>
+<!-- navbar -->
+  <div class="container-fluid">
+    <div class="row content">
+      <div class="col-sm-2 sidenav" style="background-color:#f3f3f3;border-radius: 5px " *ngIf="isToken">
+        <h4>Güven Varlık Yönetim</h4>
+        <div class="card"></div>
+        <ul class="list-group">
+          <li routerLinkActive="active" routerLink="/home"><a class="list-group-item"><i class="material-icons">home</i> Anasayfa</a></li>
+          <li routerLinkActive="active" routerLink="/customers"><a class="list-group-item"><i class="material-icons">people</i>Borçlular</a></li>
+          <li routerLinkActive="active" routerLink="/collections"><a class="list-group-item"> <i class="material-icons">business_center</i>Tahsilatlar</a></li>
+          <li routerLinkActive="active" routerLink="/activities"><a class="list-group-item"> <i class="material-icons">subject</i>Aktiviteler</a></li>
+          <li routerLinkActive="active" routerLink="/protocols"><a class="list-group-item"><i class="material-icons">business_center</i>Protokoller</a></li>
+        </ul><br>
+      </div> 
+      <div class="col-sm-10">      
+        <router-outlet></router-outlet>       
+      </div>
+
+    </div>
+  </div>
+  <footer class="container-fluid">
+    <p>Tüm hakları saklıdır. Güven Varlık Yönetim © 2018</p>
+  </footer>
+  
+
+  

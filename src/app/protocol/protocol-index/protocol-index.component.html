@@ -1,0 +1,82 @@
+   <!-- page content -->
+   <div class="right_col" role="main" style="min-height: 985px;">
+    <div class="">
+      <div class="page-title">
+        <div class="title_left">
+          <h3>Protokoller</h3>
+        </div>
+
+        <div class="title_right">
+          <div class="col-md-5 col-sm-5 col-xs-12 form-group" style="margin-right: -170px;">
+            <div class="input-group">
+              <button class="btn btn-round btn-default" type="button" (click)="newProtocol()"><i class="fa fa-plus"></i> Yeni</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <label class="control-label col-md-2 col-sm-12 col-xs-12" style="margin-top: 8px;">Müşteri No</label>
+        <div class="col-md-10"style="margin-bottom: 15px;width: 300px;">
+          <select class="form-control" (change)="changedAgr($event.target.value)" #aprCodeInput>
+            <option *ngFor="let apr of aprs" 
+            [value]="apr">
+              {{apr}}
+            </option>                          
+          </select>
+        </div>
+    </div>
+      
+    
+        <table id="datatable" class="table table-striped table-bordered">
+            <thead>
+              <tr>
+                <th>Hareket No</th>
+                <th>Müşteri No</th>
+                <th>Tarih</th>
+                <th>Vade Tarihi</th>
+                <th>Kayıt Durumu</th>
+                <th>Para Birimi</th>
+                <th>Anapara Tutarı</th>      
+                <th>Asgari Tahsilat Tutarı</th>                         
+                <th>Toplam Borç</th>  
+                <th>Tutar</th>  
+                <th>İndirim Tutarı</th>  
+                <th>Peşin Değeri</th>  
+                <th>Kalan Peşin Değer</th> 
+                <th>Diğer</th> 
+              </tr>
+            </thead>           
+            <tbody>
+              <tr *ngFor="let customer of protocols">
+                <td>{{ customer['trxNo'] }} </td>        
+                <td>{{ customer['aprCode'] }} </td>
+                <td>{{ customer['trxDate'] }} </td>
+                <td>{{ customer['dueDate'] }} </td>
+                <td>{{ customer['recStatusName'] }} </td>
+                <td>{{ customer['currCode'] }} </td> 
+                <td>{{ customer['protocolPrincipalAmount'] }} </td>                                                                    
+                <td>{{ customer['protocolAttAmount'] }} </td>       
+                <td>{{ customer['protocolTotalRisk'] }} </td>       
+                <td>{{ customer['protocolAmount'] }} </td>       
+                <td>{{ customer['protocolDiscountAmount'] }} </td>       
+                <td>{{ customer['protocolNpvAmount'] }} </td>       
+                <td>{{ customer['protocolRemNpvAmount'] }} </td> 
+                <td>
+                    <div class="dropdown">
+                        <button class="btn-info dropdown-toggle" data-toggle="dropdown">
+                         <span class="glyphicon glyphicon-align-left"></span> 
+                         <span class="caret"></span></button>
+                          <ul class="dropdown-menu">
+                              <li><a>Krediler</a></li>
+                              <li><a>Ödemeler</a></li>
+                              <li><a>Onaylar</a></li>
+                            </ul>
+                      </div>
+                </td>      
+              </tr>                    
+            </tbody>
+          </table>             
+          <div class="alert alert-warning alert-dismissible fade in" role="alert" style="text-align: center" *ngIf="protocols == 0">                            
+              <strong>Kayıtlı protokol bulunmamaktadır.</strong>
+          </div>
+    

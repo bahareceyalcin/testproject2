@@ -1,0 +1,49 @@
+   <!-- page content -->
+   <div class="right_col" role="main" style="min-height: 985px;">
+      <div class="">
+        <div class="page-title">
+          <div class="title_left" style="height: 40px; margin-left: 16px; margin-top: -20px;">
+            <h3>Tahsilatlar</h3>
+          </div>
+          <div class="">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+              <div class="x_panel">              
+                <div class="x_content">                                              
+                  <table id="datatable" class="table table-striped table-bordered">
+                      <thead>
+                        <tr>
+                          <th>Trx No</th>
+                          <th>Tahsilat Tip No</th>
+                          <th>Tahsilat Tipi</th>                                
+                          <th>Müşteri No</th>
+                          <th>Hesap No</th>
+                          <th>Oluşturma Tarihi</th>
+                          <th>currType</th>    
+                          <th>amountOrg</th>    
+                          <th>amountLoc</th>    
+                        </tr>
+                      </thead>            
+                      <tbody>
+                        <tr *ngFor="let collection of collections; let i=index">
+                          <td>{{ collection['trxNo'] }}</td>
+                          <td>{{ collection['trxTypeId'] }}</td>
+                          <td>{{ collection['trxTypeName'] }}</td>         
+                          <td>{{ collection['aprCode'] }}</td>     
+                          <td>{{ collection['bankAccountId'] }}</td>  
+                          <td>{{ collection['trxDate'] }}</td>  
+                          <td>{{ collection['currType'] }}</td>     
+                          <td>{{ collection['amountOrg'] }}</td>                                                                         
+                          <td>{{ collection['amountLoc'] }}</td>    
+                        </tr>                       
+                      </tbody>
+                  </table>  
+                  <div class="alert alert-warning alert-dismissible fade in" role="alert" style="text-align: center" *ngIf="collections == 0 && modalType == 'collections'">                            
+                      <strong>Kayıtlı tahsilat bulunmamaktadır.</strong>
+                  </div>                                                     
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>

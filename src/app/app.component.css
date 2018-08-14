@@ -1,0 +1,28 @@
+
+footer {
+  background-color: #555;
+  color: white;
+  padding: 15px;
+}
+ul {
+  list-style-type: none;
+}
+#navbar-container-fluid{
+  background-color: #0f0f44
+}
+.card{
+  height: 120px;
+  margin-left: 30px; 
+  width: 120px;
+  margin-bottom:10px;
+  background-color:white;
+  border-radius: 100px
+}
+.material-icons{
+  font-size:18px;
+  margin-right: 5px
+}
+
+
+
+

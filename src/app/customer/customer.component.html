@@ -1,0 +1,955 @@
+   <!-- page content -->
+   <div class="right_col" role="main" style="min-height: 985px;">
+    <div class="">
+      <div class="page-title" >
+        <div class="title_left" style="height: 40px; margin-left: 16px; margin-top: -20px;">
+          <h3>Borçlular</h3>
+        </div>
+        <div class="">
+          <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">              
+              <div class="x_content">
+              <!-- modals -->                                
+              <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog modal-lg" style="position: fixed; z-index: 200;width:-webkit-fill-available;padding-left: 40px;padding-right: 40px;">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" (click)="closeModal()"><span aria-hidden="true">×</span>
+                      </button>
+                      <h4 class="modal-title" id="myModalLabel">{{ modalName}}</h4>
+                      <h5 class="modal-title" id="myModalLabel">{{ customerInfo.aprCode}}</h5>
+                    </div>
+                    <div class="modal-body">                               
+                        <table id="datatable" class="table table-striped table-bordered" *ngIf="customerInfos != 0 && modalType == 'customerInfos'">
+                            <thead>
+                              <tr>
+                                <th>Borçlu No</th>
+                                <th>TCKN</th>
+                                <th>Doğum Tarihi</th> 
+                                <th>Doğum Yeri</th> 
+                                <th>İşlemler</th> 
+                              </tr>
+                            </thead>           
+                            <tbody>
+                              <tr>
+                                <td>{{ customerInfo['aprName'] }} </td>
+                                <td>{{ customerInfo['citizenshipNo'] }} </td>                                       
+                                <td>{{ customerInfo['birthDate'] }}</td>  
+                                <td>{{ customerInfo['birthPlace'] }}</td>   
+                                <td>  
+                                  <div class="dropdown">
+                                    <button class="btn-info dropdown-toggle" data-toggle="dropdown">
+                                     <span class="glyphicon glyphicon-align-left"></span> 
+                                     <span class="caret"></span></button>
+                                      <ul class="dropdown-menu">
+                                          <li><a (click)="selectedCustomergetCustomerAdditionalInfo($event, customerInfo['aprCode'])">Ek Bilgiler</a></li>
+                                          <li><a (click)="selectedCustomerRegInfo($event,  customerInfo['aprCode'])">Kimlik Bilgileri</a></li>
+                                        </ul>
+                                  </div>
+                                </td>                      
+                              </tr>                    
+                            </tbody>
+                        </table>              
+                        <div class="alert alert-warning alert-dismissible fade in" role="alert" style="text-align: center" *ngIf="customerInfos == 0 && modalType == 'customerInfos'">                            
+                            <strong>Kayıtlı bilgi bulunmamaktadır.</strong>
+                        </div>                   
+                        <table id="datatable" class="table table-striped table-bordered"  *ngIf="credits != 0 && modalType == 'credits'">
+                            <thead>
+                              <tr>
+                                <th>Borç No</th>
+                                <th>Kredi Tipi</th>
+                                <th>Para Birimi</th> 
+                                <th>Açılış Tarihi</th> 
+                                <th>Temerrüt Tarihi</th> 
+                                <th>Satın Alma Tarihi</th>
+                                <th>Faiz Oranı</th>
+                                <th>Kredi Kart No</th>
+                                <th>Banka Hesap No</th>
+                                <th>İhtarname No</th>
+                                <th>Banka</th>
+                                <th>Şube</th>
+                                <th>Anapara Tutarı</th>
+                                <th>Banka Masraf</th>
+                                <th>Kalan Anapara Tutarı</th>
+                                <th>Kalan Maliyet</th>
+                                <th>Banka Faiz</th>
+                                <th>Banka Ceza</th>
+                                <th>Tahsilat Tutarı</th>
+                                <th>Bakiye</th>
+                                <th>BSMV</th>
+                                <th>Durum</th>
+                              </tr>
+                            </thead>           
+                            <tbody>
+                              <tr *ngFor="let credit of credits">
+                                <td>{{ credit['bankAccountId'] }} </td>
+                                <td>{{ credit['loanTypeName'] }} </td>                                       
+                                <td>{{ credit['currCode'] }}</td>       
+                                <td>{{ credit['openingDate'] }}</td> 
+                                <td>{{ credit['penaltyDate'] }}</td> 
+                                <td>{{ credit['purchDate'] }}</td> 
+                                <td>{{ credit['interestRate'] }}</td> 
+                                <td>{{ credit['creditCardNo'] }}</td> 
+                                <td>{{ credit['bankAccountNo'] }}</td> 
+                                <td>{{ credit['accNoticeNo'] }}</td> 
+                                <td>{{ credit['bankName'] }}</td> 
+                                <td>{{ credit['bankBranchName'] }}</td> 
+                                <td>{{ credit['principalAmount'] }}</td> 
+                                <td>{{ credit['expenseAmount'] }}</td> 
+                                <td>{{ credit['remPrincipalAmount'] }}</td> 
+                                <td>{{ credit['remCost'] }}</td> 
+                                <td>{{ credit['interestAmount'] }}</td> 
+                                <td>{{ credit['penaltyAmount'] }}</td> 
+                                <td>{{ credit['collectionAmount'] }}</td> 
+                                <td>{{ credit['balance'] }}</td> 
+                                <td>{{ credit['bsmVflag'] }}</td>
+                                <td>{{ credit['inactiveFlag'] }}</td>
+                                </tr>
+                            </tbody>
+                       </table>
+                        <div class="alert alert-warning alert-dismissible fade in" role="alert" style="text-align: center" *ngIf="credits == 0 && modalType == 'credits'">                            
+                            <strong>Kayıtlı bilgi bulunmamaktadır.</strong>
+                        </div>   
+                        <table id="datatable" class="table table-striped table-bordered"  *ngIf="installments != 0 && modalType == 'installments'">
+                            <thead>
+                              <tr>
+                                <th>Hareket No</th>
+                                <th>Banka Hesap No</th>
+                                <th>Tarih</th> 
+                                <th>Temerrüt Tarihi</th> 
+                                <th>Ödenecek Tutarı</th>
+                                <th>Ödeme Tutarı</th>
+                                <th>Kalan Ödenecek Tutar</th>
+                              </tr>
+                            </thead>           
+                            <tbody>
+                              <tr *ngFor="let installment of installments">
+                                <td>{{ installment['trxNo'] }} </td>
+                                <td>{{ installment['bankAccountId'] }} </td>                                       
+                                <td>{{ installment['trxDate'] }}</td>       
+                                <td>{{ installment['dueDate'] }}</td> 
+                                <td>{{ installment['instAmount'] }}</td> 
+                                <td>{{ installment['instPayAmount'] }}</td> 
+                                <td>{{ installment['instRemAmount'] }}</td>                         
+                                </tr>
+                            </tbody>
+                       </table>
+                        <div class="alert alert-warning alert-dismissible fade in" role="alert" style="text-align: center" *ngIf="installments == 0 && modalType == 'installments'">                            
+                            <strong>Kayıtlı bilgi bulunmamaktadır.</strong>
+                        </div>   
+                        <table id="datatable" class="table table-striped table-bordered"  *ngIf="approvals != 0 && modalType == 'approvals'">
+                            <thead>
+                              <tr>
+                                <th>Borç No</th>
+                              </tr>
+                            </thead>           
+                            <tbody>
+                              <tr *ngFor="let approval of approvals">
+                                <td>{{ approval }} </td>
+
+
+                                </tr>
+                            </tbody>
+                       </table>
+                        <div class="alert alert-warning alert-dismissible fade in" role="alert" style="text-align: center" *ngIf="approvals == 0 && modalType == 'approvals'">                            
+                            <strong>Kayıtlı bilgi bulunmamaktadır.</strong>
+                        </div> 
+                        <table id="datatable" class="table table-striped table-bordered"  *ngIf="lawsuitscredits != 0 && modalType == 'lawsuitscredits'">
+                            <thead>
+                                <tr>
+                                  <th>Borç No</th>
+                                  <th>Kredi Tipi</th>
+                                  <th>Para Birimi</th> 
+                                  <th>Açılış Tarihi</th> 
+                                  <th>Temerrüt Tarihi</th> 
+                                  <th>Satın Alma Tarihi</th>
+                                  <th>Faiz Oranı</th>
+                                  <th>Kredi Kart No</th>
+                                  <th>Banka Hesap No</th>
+                                  <th>İhtarname No</th>
+                                  <th>Banka</th>
+                                  <th>Şube</th>
+                                  <th>Anapara Tutarı</th>
+                                  <th>Banka Masraf</th>
+                                  <th>Kalan Anapara Tutarı</th>
+                                  <th>Kalan Maliyet</th>
+                                  <th>Banka Faiz</th>
+                                  <th>Banka Ceza</th>
+                                  <th>Tahsilat Tutarı</th>
+                                  <th>Bakiye</th>
+                                  <th>BSMV</th>
+                                  <th>Durum</th>
+                                </tr>
+                              </thead>           
+                              <tbody>
+                                  <tr *ngFor="let lawsuitscredit of lawsuitscredits">
+                                  <td>{{ lawsuitscredit['bankAccountId'] }} </td>
+                                  <td>{{ lawsuitscredit['loanTypeName'] }} </td>                                       
+                                  <td>{{ lawsuitscredit['currCode'] }}</td>       
+                                  <td>{{ lawsuitscredit['openingDate'] }}</td> 
+                                  <td>{{ lawsuitscredit['penaltyDate'] }}</td> 
+                                  <td>{{ lawsuitscredit['purchDate'] }}</td> 
+                                  <td>{{ lawsuitscredit['interestRate'] }}</td> 
+                                  <td>{{ lawsuitscredit['creditCardNo'] }}</td> 
+                                  <td>{{ lawsuitscredit['bankAccountNo'] }}</td> 
+                                  <td>{{ lawsuitscredit['accNoticeNo'] }}</td> 
+                                  <td>{{ lawsuitscredit['bankName'] }}</td> 
+                                  <td>{{ lawsuitscredit['bankBranchName'] }}</td> 
+                                  <td>{{ lawsuitscredit['principalAmount'] }}</td> 
+                                  <td>{{ lawsuitscredit['expenseAmount'] }}</td> 
+                                  <td>{{ lawsuitscredit['remPrincipalAmount'] }}</td> 
+                                  <td>{{ lawsuitscredit['remCost'] }}</td> 
+                                  <td>{{ lawsuitscredit['interestAmount'] }}</td> 
+                                  <td>{{ lawsuitscredit['penaltyAmount'] }}</td> 
+                                  <td>{{ lawsuitscredit['collectionAmount'] }}</td> 
+                                  <td>{{ lawsuitscredit['balance'] }}</td> 
+                                  <td>{{ lawsuitscredit['bsmVflag'] }}</td>
+                                  <td>{{ lawsuitscredit['inactiveFlag'] }}</td>
+  
+                                  <td> 
+                                     <div class="dropdown">
+                                      <button class=" btn-info dropdown-toggle" data-toggle="dropdown">
+                                      <span class="glyphicon glyphicon-align-left"></span> 
+                                      <span class="caret"></span></button>
+                                      <ul class="dropdown-menu">
+                                        <li><a >Görüntüle</a></li>
+                                      </ul>
+                                    </div></td>                       
+                                </tr>                    
+                              </tbody> 
+                       </table>
+                        <div class="alert alert-warning alert-dismissible fade in" role="alert" style="text-align: center" *ngIf="lawsuitscredits == 0 && modalType == 'lawsuitscredits'">                            
+                            <strong>Kayıtlı bilgi bulunmamaktadır.</strong>
+                        </div>   
+                        <table id="datatable" class="table table-striped table-bordered"  *ngIf="lawsuitsparties != 0 && modalType == 'lawsuitsparties'">
+                            <thead>
+                              <tr>
+                                <th>Borç No</th>
+                              </tr>
+                            </thead>           
+                            <tbody>
+                              <tr *ngFor="let lawsuitsparty of lawsuitsparties">
+                                <td>{{ approval }} </td>
+
+
+                                </tr>
+                            </tbody>
+                       </table>
+                        <div class="alert alert-warning alert-dismissible fade in" role="alert" style="text-align: center" *ngIf="lawsuitsparties == 0 && modalType == 'lawsuitsparties'">                            
+                            <strong>Kayıtlı bilgi bulunmamaktadır.</strong>
+                        </div>   
+                        <table id="datatable" class="table table-striped table-bordered"  *ngIf="lawcasescredits != 0 && modalType == 'lawcasescredits'">
+                            <thead>
+                                <tr>
+                                  <th>Borç No</th>
+                                  <th>Kredi Tipi</th>
+                                  <th>Para Birimi</th> 
+                                  <th>Açılış Tarihi</th> 
+                                  <th>Temerrüt Tarihi</th> 
+                                  <th>Satın Alma Tarihi</th>
+                                  <th>Faiz Oranı</th>
+                                  <th>Kredi Kart No</th>
+                                  <th>Banka Hesap No</th>
+                                  <th>İhtarname No</th>
+                                  <th>Banka</th>
+                                  <th>Şube</th>
+                                  <th>Anapara Tutarı</th>
+                                  <th>Banka Masraf</th>
+                                  <th>Kalan Anapara Tutarı</th>
+                                  <th>Kalan Maliyet</th>
+                                  <th>Banka Faiz</th>
+                                  <th>Banka Ceza</th>
+                                  <th>Tahsilat Tutarı</th>
+                                  <th>Bakiye</th>
+                                  <th>BSMV</th>
+                                  <th>Durum</th>
+                                </tr>
+                              </thead>           
+                              <tbody>
+                                  <tr *ngFor="let lawcasescredit of lawcasescredits">
+                                  <td>{{ lawcasescredit['bankAccountId'] }} </td>
+                                  <td>{{ crlawcasescreditedit['loanTypeName'] }} </td>                                       
+                                  <td>{{ lawcasescredit['currCode'] }}</td>       
+                                  <td>{{ lawcasescredit['openingDate'] }}</td> 
+                                  <td>{{ lawcasescredit['penaltyDate'] }}</td> 
+                                  <td>{{ lawcasescredit['purchDate'] }}</td> 
+                                  <td>{{ lawcasescredit['interestRate'] }}</td> 
+                                  <td>{{ lawcasescredit['bankAccountNo'] }}</td> 
+                                  <td>{{ lawcasescredit['accNoticeNo'] }}</td> 
+                                  <td>{{ lawcasescredit['bankName'] }}</td> 
+                                  <td>{{ lawcasescredit['bankBranchName'] }}</td> 
+                                  <td>{{ lawcasescredit['principalAmount'] }}</td> 
+                                  <td>{{ lawcasescredit['expenseAmount'] }}</td> 
+                                  <td>{{ lawcasescredit['remPrincipalAmount'] }}</td> 
+                                  <td>{{ lawcasescredit['remCost'] }}</td> 
+                                  <td>{{ lawcasescredit['interestAmount'] }}</td> 
+                                  <td>{{ lawcasescredit['penaltyAmount'] }}</td> 
+                                  <td>{{ lawcasescredit['collectionAmount'] }}</td> 
+                                  <td>{{ lawcasescredit['balance'] }}</td> 
+                                  <td>{{ lawcasescredit['bsmVflag'] }}</td>
+                                  <td>{{ lawcasescredit['inactiveFlag'] }}</td>
+  
+                                  <td> 
+                                     <div class="dropdown">
+                                      <button class=" btn-info dropdown-toggle" data-toggle="dropdown">
+                                      <span class="glyphicon glyphicon-align-left"></span> 
+                                      <span class="caret"></span></button>
+                                      <ul class="dropdown-menu">
+                                        <li><a >Görüntüle</a></li>
+                                      </ul>
+                                    </div></td>                       
+                                </tr>                    
+                              </tbody> 
+                       </table>
+                        <div class="alert alert-warning alert-dismissible fade in" role="alert" style="text-align: center" *ngIf="lawcasescredits == 0 && modalType == 'lawcasescredits'">                            
+                            <strong>Kayıtlı bilgi bulunmamaktadır.</strong>
+                        </div>   
+                        <table id="datatable" class="table table-striped table-bordered"  *ngIf="lawcasesparties != 0 && modalType == 'lawcasesparties'">
+                            <thead>
+                              <tr>
+                                <th>Borç No</th>
+                              </tr>
+                            </thead>           
+                            <tbody>
+                              <tr *ngFor="let lawcasesparty of lawcasesparties">
+                                <td>{{ approval }} </td>
+
+
+                                </tr>
+                            </tbody>
+                       </table>
+                        <div class="alert alert-warning alert-dismissible fade in" role="alert" style="text-align: center" *ngIf="lawcasesparties == 0 && modalType == 'lawcasesparties'">                            
+                            <strong>Kayıtlı bilgi bulunmamaktadır.</strong>
+                        </div>   
+                        <table id="datatable" class="table table-striped table-bordered"  *ngIf="lawtaskscredits != 0 && modalType == 'lawtaskscredits'">
+                            <thead>
+                                <tr>
+                                  <th>Borç No</th>
+                                  <th>Kredi Tipi</th>
+                                  <th>Para Birimi</th> 
+                                  <th>Açılış Tarihi</th> 
+                                  <th>Temerrüt Tarihi</th> 
+                                  <th>Satın Alma Tarihi</th>
+                                  <th>Faiz Oranı</th>
+                                  <th>Kredi Kart No</th>
+                                  <th>Banka Hesap No</th>
+                                  <th>İhtarname No</th>
+                                  <th>Banka</th>
+                                  <th>Şube</th>
+                                  <th>Anapara Tutarı</th>
+                                  <th>Banka Masraf</th>
+                                  <th>Kalan Anapara Tutarı</th>
+                                  <th>Kalan Maliyet</th>
+                                  <th>Banka Faiz</th>
+                                  <th>Banka Ceza</th>
+                                  <th>Tahsilat Tutarı</th>
+                                  <th>Bakiye</th>
+                                  <th>BSMV</th>
+                                  <th>Durum</th>
+                                </tr>
+                              </thead>           
+                              <tbody>
+                                  <tr *ngFor="let lawtaskcredit of lawtaskscredits">
+                                  <td>{{ lawtaskcredit['bankAccountId'] }} </td>
+                                  <td>{{ lawtaskcredit['loanTypeName'] }} </td>                                       
+                                  <td>{{ lawtaskcredit['currCode'] }}</td>       
+                                  <td>{{ lawtaskcredit['openingDate'] }}</td> 
+                                  <td>{{ lawtaskcredit['penaltyDate'] }}</td> 
+                                  <td>{{ lawtaskcredit['purchDate'] }}</td> 
+                                  <td>{{ lawtaskcredit['interestRate'] }}</td> 
+                                  <td>{{ lawtaskcredit['creditCardNo'] }}</td> 
+                                  <td>{{ lawtaskcredit['bankAccountNo'] }}</td> 
+                                  <td>{{ lawtaskcredit['accNoticeNo'] }}</td> 
+                                  <td>{{ lawtaskcredit['bankName'] }}</td> 
+                                  <td>{{ lawtaskcredit['bankBranchName'] }}</td> 
+                                  <td>{{ lawtaskcredit['principalAmount'] }}</td> 
+                                  <td>{{ lawtaskcredit['expenseAmount'] }}</td> 
+                                  <td>{{ lawtaskcredit['remPrincipalAmount'] }}</td> 
+                                  <td>{{ lawtaskcredit['remCost'] }}</td> 
+                                  <td>{{ lawtaskcredit['interestAmount'] }}</td> 
+                                  <td>{{ lawtaskcredit['penaltyAmount'] }}</td> 
+                                  <td>{{ lawtaskcredit['collectionAmount'] }}</td> 
+                                  <td>{{ lawtaskcredit['balance'] }}</td> 
+                                  <td>{{ lawtaskcredit['bsmVflag'] }}</td>
+                                  <td>{{ lawtaskcredit['inactiveFlag'] }}</td>
+  
+                                  <td> 
+                                     <div class="dropdown">
+                                      <button class=" btn-info dropdown-toggle" data-toggle="dropdown">
+                                      <span class="glyphicon glyphicon-align-left"></span> 
+                                      <span class="caret"></span></button>
+                                      <ul class="dropdown-menu">
+                                        <li><a >Görüntüle</a></li>
+                                      </ul>
+                                    </div></td>                       
+                                </tr>                    
+                              </tbody>          
+                       </table>
+                        <div class="alert alert-warning alert-dismissible fade in" role="alert" style="text-align: center" *ngIf="lawcasescredits == 0 && modalType == 'lawcasescredits'">                            
+                            <strong>Kayıtlı bilgi bulunmamaktadır.</strong>
+                        </div>   
+                        <table id="datatable" class="table table-striped table-bordered"  *ngIf="lawtasksparties != 0 && modalType == 'lawtasksparties'">
+                            <thead>
+                              <tr>
+                                <th>Borç No</th>
+                              </tr>
+                            </thead>           
+                            <tbody>
+                              <tr *ngFor="let lawtasksparty of lawtasksparties">
+                                <td>{{ approval }} </td>
+
+
+                                </tr>
+                            </tbody>
+                       </table>
+                        <div class="alert alert-warning alert-dismissible fade in" role="alert" style="text-align: center" *ngIf="lawtasksparties == 0 && modalType == 'lawtasksparties'">                            
+                            <strong>Kayıtlı bilgi bulunmamaktadır.</strong>
+                        </div>     
+
+
+
+
+
+
+                    </div>                  
+                  </div>
+                </div>
+              </div>  
+               <!-- /modals --> 
+               <!-- modals2  -->
+              <div class="modal fade bs-example-modal-lg popup" tabindex="-1" role="dialog" aria-hidden="true">
+                  <div class="modal-dialog modal-lg" style="position: fixed; z-index: 200;width:-webkit-fill-available;padding-left: 40px;padding-right: 40px;">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" (click)="closeModal2()"><span aria-hidden="true">×</span>
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">{{ modalName2 }}</h4>
+                        <h5 class="modal-title" id="myModalLabel">{{ customerInfo.aprCode}}</h5>
+                      </div>  
+                      <div class="modal-body">
+                          <table id="datatable" class="table table-striped table-bordered" *ngIf="additionalInfos != 0 && modalType2 == 'additionalInfos'">
+                              <thead>
+                                <tr>
+                                  <th>Tahsilat Temsilcisi</th>
+                                  <th>Avukat</th>
+                                  <th>Kategori Adı</th> 
+                                  <th>Aktivite</th> 
+                                  <th>Başarılı Aktivite</th>
+                                  <th>Çağrı</th> 
+                                  <th>Başarılı Çağrı</th> 
+                                  <th>Son Aktivite</th> 
+                                  <th>Son Başarılı Aktivite</th> 
+                                  <th>Sahibi</th> 
+                                  <th>İlk Çağrı</th> 
+                                  <th>Son Çağrı</th>
+                                </tr>
+                              </thead>           
+                              <tbody>
+                                <tr *ngFor="let additionalInfo of additionalInfos">
+                                  <td>{{ additionalInfo['collectmanName'] }} </td>
+                                  <td>{{ additionalInfo['advocateName'] }} </td>                                       
+                                  <td>{{ additionalInfo['custCategoryName'] }}</td>  
+                                  <td>{{ additionalInfo['totalActCnt'] }}</td>  
+                                  <td>{{ additionalInfo['succActCnt'] }}</td>  
+                                  <td>{{ additionalInfo['callCnt'] }}</td> 
+                                  <td>{{ additionalInfo['succCallCnt'] }}</td> 
+                                  <td>{{ additionalInfo['lastActDate'] }}</td> 
+                                  <td>{{ additionalInfo['succCallCnt'] }}</td> 
+                                  <td>{{ additionalInfo['assetOwnerFlag'] }}</td> 
+                                  <td>{{ additionalInfo['firstCallDate'] }}</td> 
+                                  <td>{{ additionalInfo['lastCallDate'] }}</td> 
+                                  <td></td>                       
+                                </tr>                    
+                              </tbody>
+                          </table>   
+                          <div class="alert alert-warning alert-dismissible fade in" role="alert" style="text-align: center" *ngIf="additionalInfos == 0 && modalType == 'additionalInfos'">                            
+                              <strong>Kayıtlı ek bilgi bulunmamaktadır.</strong>
+                          </div>
+                          <table id="datatable" class="table table-striped table-bordered" *ngIf="custRegInfos != 0 && modalType2 == 'custRegInfos'">
+                              <thead>
+                                <tr>
+                                  <th>Kimlik No</th>
+                                  <th>Seri No</th>
+                                  <th>İl</th> 
+                                  <th>İlçe</th> 
+                                  <th>Mahalle-Köy</th>
+                                  <th>Aile Sıra No</th> 
+                                  <th>Cilt No</th> 
+                                  <th>Sıra No</th> 
+                                </tr>
+                              </thead>           
+                              <tbody>
+                                <tr *ngFor="let custRegInfo of custRegInfos">
+                                  <td>{{ custRegInfo['identityNo'] }} </td>
+                                  <td>{{ custRegInfo['identitySeriNo'] }} </td>                                       
+                                  <td>{{ custRegInfo['identityProvinceName'] }}</td>  
+                                  <td>{{ custRegInfo['identityDistrictName'] }}</td>  
+                                  <td>{{ custRegInfo['identityVillage'] }}</td>  
+                                  <td>{{ custRegInfo['identityPageNo'] }}</td> 
+                                  <td>{{ custRegInfo['identityTomeNo'] }}</td> 
+                                  <td>{{ custRegInfo['identityFileNo'] }}</td>                    
+                                </tr>                    
+                              </tbody>
+                          </table>              
+                          <div class="alert alert-warning alert-dismissible fade in" role="alert" style="text-align: center" *ngIf="custRegInfos == 0 && modalType == 'custRegInfos'">                            
+                              <strong>Kayıtlı ek bilgi bulunmamaktadır.</strong>
+                          </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>  
+                 <!-- modals2  -->
+                <ul class="list-group">
+                  <div *ngFor="let customer of customers; let i = index">
+                    <li  class="list-group-item " routerLink="/customers" (click)="selectedCustomergetCustomerInfos($event, customer, i)" style="cursor: pointer;">
+                      <a  data-toggle="tooltip" title="{{customer}}">{{ customer }} </a> 
+                    </li>
+                    <div [attr.id]="i" class="collapse">
+                      <div class="card">
+                        <div class="card-body">
+                          <div class="panel-body" style="margin-top: -12px;margin-left: -15px;margin-bottom:-32px;margin-left:-16px">
+                              <div class="container">                    
+                                  <ul class="nav nav-tabs">
+                                    <li class="active"><a data-toggle="tab" href="#general-{{customer}}">Genel</a></li>
+                                    <li><a data-toggle="tab" href="#contact-{{customer}}" (click)="selectedCustomergetContactInfo($event,customer)">İletişim</a></li>
+                                    <li><a data-toggle="tab" href="#asset-{{customer}}" (click)="selectedCustomergetCredits($event,customer)">Mal Varlığı</a></li>
+                                    <li><a data-toggle="tab" href="#protocol-{{customer}}" (click)="selectedCustomergetProtocols($event, customer)">Protokoller</a></li>
+                                    <li><a data-toggle="tab" href="#credit-{{customer}}" (click)="selectedCustomergetCredits($event,customer)">Krediler</a></li>
+                                    <li><a data-toggle="tab" href="#law-{{customer}}">Yasal Takip</a></li>
+                                  </ul>                       
+                                  <div class="tab-content">
+                                    <div id="general-{{customer}}" class="tab-pane fade in active"> 
+                                      <table id="datatable" class="table table-striped table-bordered">
+                                          <thead>
+                                            <tr>
+                                              <th>Ad Soyad</th>
+                                              <th>TCKN</th>
+                                              <th>Vergi No</th>
+                                              <th>  
+                                                İşlemler
+                                              </th>                             
+                                            </tr>
+                                          </thead>           
+                                          <tbody>
+                                            <tr>
+                                              <td>{{ customerInfos['aprName'] }} </td> 
+                                              <td>{{ customerInfos['citizenshipNo'] }} </td>                                           
+                                              <td>{{ customerInfos['taxAccoutNo'] }} </td>
+                                              <td>
+                                                  <div class="dropdown">
+                                                      <button class="btn-info dropdown-toggle" data-toggle="dropdown">
+                                                          <span class="glyphicon glyphicon-align-left"></span> 
+                                                        <span class="caret"></span></button>
+                                                      <ul class="dropdown-menu">
+                                                        <li><a (click)="selectedCustomergetCustomerInfo($event, customer)">Görüntüle</a></li>
+                                                        <li><a (click)="selectedCustomergetAssets($event, customer)">Mal Varlığı</a></li>
+                                                        <li><a (click)="selectedCustomergetCredits($event,customer)">Krediler</a></li>
+                                                        <li><a (click)="selectedCustomergetProtocols($event, customer)">Protokoller</a></li>
+                                                        <li><a (click)="selectedCustomergetLawSuits($event, customer)">İcralar</a></li>                                                                           
+                                                        <li><a (click)="selectedCustomergetLawCases($event, customer)">Davalar</a></li> 
+                                                        <li><a (click)="selectedCustomergetLawTasks($event, customer)">Yasal İşlemler</a></li> 
+                                                        <li><a (click)="selectedCustomergetContactInfo($event,customer)">İletişim</a></li>
+                                                      </ul>
+                                                    </div>
+                                              </td>                                   
+                                            </tr>                    
+                                          </tbody>
+                                      </table>                             
+                                    </div>
+                                    <div id="contact-{{customer}}" class="tab-pane fade"> 
+                                      <div class="container">                    
+                                          <ul class="nav nav-tabs">
+                                            <li class="active"><a data-toggle="tab" href="#address-{{customer}}">Adres</a></li>
+                                            <li><a data-toggle="tab" href="#phone-{{customer}}">Telefon</a></li>
+                                          </ul>                       
+                                          <div class="tab-content">
+                                            <div id="address-{{customer}}" class="tab-pane fade in active">
+                                              <table id="datatable" class="table table-striped table-bordered">
+                                                <thead>
+                                                  <tr>
+                                                    <th>Adres No</th>
+                                                    <th>Adres Tipi</th>
+                                                    <th>İl</th> 
+                                                    <th>Ülke</th> 
+                                                    <th>Adres 1 </th>
+                                                    <th>Adres 2</th> 
+                                                    <th>Aktif</th> 
+                                                    <th>İşlemler</th>
+                                                  </tr>
+                                                </thead>           
+                                                <tbody>
+                                                  <tr *ngFor="let address of contactInfosAddress">
+                                                    <td>{{ address['addresId'] }} </td>
+                                                    <td>{{ address['addresTypeName'] }} </td>                                       
+                                                    <td>{{ address['provinceName'] }}</td>  
+                                                    <td>{{ address['countryName'] }}</td>  
+                                                    <td>{{ address['address1'] }}</td>  
+                                                    <td>{{ address['address2'] }}</td> 
+                                                    <td>{{ address['inactiveFlag'] }}</td> 
+                                                    <td>  
+                                                      <div class="dropdown">
+                                                        <button class="btn-info dropdown-toggle" data-toggle="dropdown">
+                                                          <span class="glyphicon glyphicon-align-left"></span> 
+                                                          <span class="caret"></span></button>
+                                                            <ul class="dropdown-menu">
+                                                              <li><a >Krediler</a></li>
+                                                              <li><a >Partiler</a></li>
+                                                            </ul>
+                                                      </div>
+                                                    </td>                       
+                                                  </tr>                    
+                                                </tbody>
+                                              </table>    
+                                            </div>
+                                            <div id="phone-{{customer}}" class="tab-pane fade">
+                                              <table id="datatable" class="table table-striped table-bordered">
+                                                <thead>
+                                                  <tr>
+                                                    <th>Telefon</th>
+                                                    <th>Telefon Tipi</th>
+                                                    <th>Telefon Sahibi</th> 
+                                                    <th>Telefon No</th> 
+                                                    <th>Aktif</th>
+                                                    <th>İşlemler</th>
+                                                  </tr>
+                                                </thead>           
+                                                <tbody>
+                                                  <tr *ngFor="let phone of contactInfosPhones">
+                                                    <td>{{ phone['phoneId'] }} </td>
+                                                    <td>{{ phone['phoneTypeName'] }} </td>                                       
+                                                    <td>{{ phone['phoneOwnerTypeName'] }}</td>  
+                                                    <td>{{ phone['phone'] }}</td>  
+                                                    <td>{{ phone['inactiveFlag'] }}</td>                                        
+                                                    <td>  <div class="dropdown">
+                                                        <button class="btn-info dropdown-toggle" data-toggle="dropdown">
+                                                          <span class="glyphicon glyphicon-align-left"></span> 
+                                                          <span class="caret"></span></button>
+                                                        <ul class="dropdown-menu">
+                                                          <li><a >Krediler</a></li>
+                                                          <li><a >Partiler</a></li>
+                                                        </ul>
+                                                      </div>
+                                                    </td>                       
+                                                  </tr>                    
+                                                </tbody>
+                                              </table>   
+                                            </div>                           
+                                         </div>
+                                     </div>
+                                     <div class="alert alert-warning alert-dismissible fade in" role="alert" style="text-align: center" *ngIf="contactInfosAddress == 0 && contactInfosPhones == 0">                            
+                                        <strong>Kayıtlı adres,telefon bulunmamaktadır.</strong>
+                                    </div>
+                                    </div>     
+                                    <div id="asset-{{customer}}" class="tab-pane fade"> 
+                                        <table id="datatable" class="table table-striped table-bordered">
+                                            <thead>
+                                              <tr>
+                                                <th>Mal Varlığı No</th>
+                                                <th>Varlık No</th>
+                                                <th>MalVarlığı Tipi</th>                                
+                                                <th>Müşteri No</th>
+                                                <th>Tarih</th>
+                                                <th>Açıklama</th>
+                                                <th>Durum</th>                                                   
+                                              </tr>
+                                            </thead>            
+                                            <tbody>
+                                              <tr *ngFor="let asset of assets; let i=index">
+                                                <td>{{ asset['vouherNo'] }}</td>
+                                                <td>{{ asset['assetNo'] }}</td>
+                                                <td>{{ asset['assetTypeName'] }}</td>         
+                                                <td>{{ asset['aprCode'] }}</td>     
+                                                <td>{{ asset['trxDate'] }}</td>  
+                                                <td>{{ asset['description'] }}</td>  
+                                                <td>{{ asset['isValid'] }}</td>                                                                          
+                                              </tr>                       
+                                            </tbody>
+                                        </table>  
+                                        <div class="alert alert-warning alert-dismissible fade in" role="alert" style="text-align: center" *ngIf="assets == 0">                            
+                                            <strong>Kayıtlı mal varlığı bulunmamaktadır.</strong>
+                                        </div>   
+                                    </div>   
+                                    <div id="protocol-{{customer}}" class="tab-pane fade"> 
+                                        <table id="datatable" class="table table-striped table-bordered">
+                                            <thead>
+                                              <tr>
+                                                <th>Hareket No</th>
+                                                <th>Müşteri No</th>
+                                                <th>Tarih</th>
+                                                <th>Vade Tarihi</th>
+                                                <th>Kayıt Durumu</th>
+                                                <th>Para Birimi</th>
+                                                <th>Anapara Tutarı</th>      
+                                                <th>Asgari Tahsilat Tutarı</th>                         
+                                                <th>Toplam Borç</th>  
+                                                <th>Tutar</th>  
+                                                <th>İndirim Tutarı</th>  
+                                                <th>Peşin Değeri</th>  
+                                                <th>Kalan Peşin Değer</th> 
+                                                <th>Diğer</th> 
+                                              </tr>
+                                            </thead>           
+                                            <tbody>
+                                              <tr *ngFor="let customer of protocols">
+                                                <td>{{ customer['trxNo'] }} </td>        
+                                                <td>{{ customer['aprCode'] }} </td>
+                                                <td>{{ customer['trxDate'] }} </td>
+                                                <td>{{ customer['dueDate'] }} </td>
+                                                <td>{{ customer['recStatusName'] }} </td>
+                                                <td>{{ customer['currCode'] }} </td> 
+                                                <td>{{ customer['protocolPrincipalAmount'] }} </td>                                                                    
+                                                <td>{{ customer['protocolAttAmount'] }} </td>       
+                                                <td>{{ customer['protocolTotalRisk'] }} </td>       
+                                                <td>{{ customer['protocolAmount'] }} </td>       
+                                                <td>{{ customer['protocolDiscountAmount'] }} </td>       
+                                                <td>{{ customer['protocolNpvAmount'] }} </td>       
+                                                <td>{{ customer['protocolRemNpvAmount'] }} </td> 
+                                                <td>
+                                                    <div class="dropdown">
+                                                        <button class="btn-info dropdown-toggle" data-toggle="dropdown">
+                                                         <span class="glyphicon glyphicon-align-left"></span> 
+                                                         <span class="caret"></span></button>
+                                                          <ul class="dropdown-menu">
+                                                              <li><a (click)="selectedCustomergetProtocolCredit($event, customer['aprCode'])">Krediler</a></li>
+                                                              <li><a (click)="selectedCustomergetProtocolInstallment($event, customer['aprCode'])">Ödemeler</a></li>
+                                                              <li><a (click)="selectedCustomergetProtocolApproval($event, customer['aprCode'])">Onaylar</a></li>
+                                                            </ul>
+                                                      </div>
+                                                </td>      
+                                              </tr>                    
+                                            </tbody>
+                                          </table>              
+                                          <div class="alert alert-warning alert-dismissible fade in" role="alert" style="text-align: center" *ngIf="protocols == 0">                            
+                                              <strong>Kayıtlı protokol bulunmamaktadır.</strong>
+                                          </div>
+                  
+                                    </div>   
+                                    <div id="credit-{{customer}}" class="tab-pane fade"> 
+                                        <table id="datatable" class="table table-striped table-bordered">
+                                            <thead>
+                                              <tr>
+                                                <th>Borç No</th>
+                                                <th>Kredi Tipi</th>
+                                                <th>Para Birimi</th> 
+                                                <th>Açılış Tarihi</th> 
+                                                <th>Temerrüt Tarihi</th> 
+                                                <th>Satın Alma Tarihi</th>
+                                                <th>Faiz Oranı</th>
+                                                <th>Kredi Kart No</th>
+                                                <th>Banka Hesap No</th>
+                                                <th>İhtarname No</th>
+                                                <th>Banka</th>
+                                                <th>Şube</th>
+                                                <th>Anapara Tutarı</th>
+                                                <th>Banka Masraf</th>
+                                                <th>Kalan Anapara Tutarı</th>
+                                                <th>Kalan Maliyet</th>
+                                                <th>Banka Faiz</th>
+                                                <th>Banka Ceza</th>
+                                                <th>Tahsilat Tutarı</th>
+                                                <th>Bakiye</th>
+                                                <th>BSMV</th>
+                                                <th>Durum</th>
+                                              </tr>
+                                            </thead>           
+                                            <tbody>
+                                              <tr *ngFor="let credit of credits">
+                                                <td>{{ credit['bankAccountId'] }} </td>
+                                                <td>{{ credit['loanTypeName'] }} </td>                                       
+                                                <td>{{ credit['currCode'] }}</td>       
+                                                <td>{{ credit['openingDate'] }}</td> 
+                                                <td>{{ credit['penaltyDate'] }}</td> 
+                                                <td>{{ credit['purchDate'] }}</td> 
+                                                <td>{{ credit['interestRate'] }}</td> 
+                                                <td>{{ credit['creditCardNo'] }}</td> 
+                                                <td>{{ credit['bankAccountNo'] }}</td> 
+                                                <td>{{ credit['accNoticeNo'] }}</td> 
+                                                <td>{{ credit['bankName'] }}</td> 
+                                                <td>{{ credit['bankBranchName'] }}</td> 
+                                                <td>{{ credit['principalAmount'] }}</td> 
+                                                <td>{{ credit['expenseAmount'] }}</td> 
+                                                <td>{{ credit['remPrincipalAmount'] }}</td> 
+                                                <td>{{ credit['remCost'] }}</td> 
+                                                <td>{{ credit['interestAmount'] }}</td> 
+                                                <td>{{ credit['penaltyAmount'] }}</td> 
+                                                <td>{{ credit['collectionAmount'] }}</td> 
+                                                <td>{{ credit['balance'] }}</td> 
+                                                <td>{{ credit['bsmVflag'] }}</td>
+                                                <td>{{ credit['inactiveFlag'] }}</td>
+                
+                                                <td> 
+                                                   <div class="dropdown">
+                                                    <button class=" btn-info dropdown-toggle" data-toggle="dropdown">
+                                                    <span class="glyphicon glyphicon-align-left"></span> 
+                                                    <span class="caret"></span></button>
+                                                    <ul class="dropdown-menu">
+                                                      <li><a >Görüntüle</a></li>
+                                                    </ul>
+                                                  </div></td>                       
+                                              </tr>                    
+                                            </tbody>
+                                        </table>              
+                                        <div class="alert alert-warning alert-dismissible fade in" role="alert" style="text-align: center" *ngIf="credits == 0" >                            
+                                            <strong>Kayıtlı kredi bulunmamaktadır.</strong>
+                                        </div>
+                                    </div>
+                                    <div id="law-{{customer}}" class="tab-pane fade">
+                                        <div class="container">                    
+                                            <ul class="nav nav-tabs">
+                                              <li class="active"><a data-toggle="tab" href="#lawtask-{{customer}}" (click)="selectedCustomergetLawTasks($event, customer)">Yasal İşlemler</a></li>
+                                              <li><a data-toggle="tab" href="#lawcase-{{customer}}"  (click)="selectedCustomergetLawCases($event, customer)">Davalar</a></li>
+                                              <li><a data-toggle="tab" href="#lawsuit-{{customer}}"  (click)="selectedCustomergetLawSuits($event, customer)">İcralar</a></li>
+                                            </ul>                       
+                                            <div class="tab-content">
+                                              <div id="lawtask-{{customer}}" class="tab-pane fade in active" >
+                                                  <table id="datatable" class="table table-striped table-bordered">
+                                                      <thead>
+                                                        <tr>
+                                                          <th>Hareket No</th>
+                                                          <th>Tarih</th>
+                                                          <th>Mahkeme Adı </th>
+                                                          <th>Son İşlem Adımı</th> 
+                                                          <th>Dava Türü</th> 
+                                                          <th>Sorumlu Tip</th>
+                                                          <th>İş Durumu</th>
+                                                          <td>Son Değiştirme Tarihi</td>
+                                                          <td>Sorumlu</td>  
+                                                          <td>Talimatlı mı?</td> 
+                                                          <td>Dosya No</td> 
+                                                          <th>İşlemler</th> 
+                                                        </tr>
+                                                      </thead>           
+                                                      <tbody>
+                                                        <tr *ngFor="let lawtask of lawtasks">
+                                                          <td>{{ lawtask['trxNo'] }} </td>
+                                                          <td>{{ lawtask['trxDate'] }} </td>
+                                                          <td>{{ lawtask['lawTaskTypeName'] }} </td>    
+                                                          <td>{{ lawtask['currentStepName'] }}</td>                                     
+                                                          <td>{{ lawtask['lawSuitTypeName'] }}</td>  
+                                                          <td>{{ lawtask['userTypeName'] }}</td>  
+                                                          <td>{{ lawtask['closureStatusName'] }}</td>  
+                                                          <td>{{ lawtask['lastRecDate'] }}</td>
+                                                          <td>{{ lawtask['responsibleUser'] }}</td>  
+                                                          <td>{{ lawtask['instructedFlag'] }}</td> 
+                                                          <td>{{ lawtask['lsTrxNo'] }}</td> 
+                                                          <td>  <div class="dropdown">
+                                                              <button class="btn-info dropdown-toggle" data-toggle="dropdown">
+                                                                <span class="glyphicon glyphicon-align-left"></span> 
+                                                                <span class="caret"></span></button>
+                                                              <ul class="dropdown-menu">
+                                                                  <li><a>Krediler</a></li>
+                                                                  <li><a>Taraflar</a></li>
+                                                              </ul>
+                                                            </div></td>                       
+                                                        </tr>                    
+                                                      </tbody>
+                                                  </table>              
+                                                  <div class="alert alert-warning alert-dismissible fade in" role="alert" style="text-align: center" *ngIf="lawtasks == 0">                            
+                                                      <strong>Kayıtlı yasal işlem bulunmamaktadır.</strong>
+                                                  </div>
+                                              </div>
+                                              <div id="lawcase-{{customer}}" class="tab-pane fade" >
+                                                  <table id="datatable" class="table table-striped table-bordered" >
+                                                      <thead>
+                                                        <tr>
+                                                          <th>Hareket No</th>
+                                                          <th>Mahkeme Adı</th>
+                                                          <th>Dava Türü Açk.</th> 
+                                                          <th>Dava Durumu</th> 
+                                                          <th>Taraf Tipi</th>
+                                                          <th>Durum</th> 
+                                                          <th>Diğer</th> 
+                                                        </tr>
+                                                      </thead>           
+                                                      <tbody>
+                                                        <tr *ngFor="let lawcase of lawcases">                         
+                                                          <td>{{ lawcases['trxNo'] }} </td>
+                                                          <td>{{ lawcases['lawCourtName'] }} </td>                                       
+                                                          <td>{{ lawcases['lawSuitTypeName'] }}</td>  
+                                                          <td>{{ lawcases['caseStatusName'] }}</td> 
+                                                          <td>{{ lawcases['paymentWarrDate'] }}</td>  
+                                                          <td>{{ lawcases['partTypeName'] }}</td>  
+                                                          <td>{{ lawcases['inactiveFlag'] }}</td> 
+                                                          <td>  <div class="dropdown">
+                                                              <button class="btn-info dropdown-toggle" data-toggle="dropdown">
+                                                               <span class="glyphicon glyphicon-align-left"></span> 
+                                                               <span class="caret"></span></button>
+                                                              <ul class="dropdown-menu">
+                                                                <li><a>Krediler</a></li>
+                                                                <li><a>Taraflar</a></li>
+                                                              </ul>
+                                                            </div></td>                       
+                                                        </tr>                    
+                                                      </tbody>
+                                                  </table>              
+                                                  <div class="alert alert-warning alert-dismissible fade in" role="alert" style="text-align: center" *ngIf="lawcases == 0">                            
+                                                      <strong>Kayıtlı dava bulunmamaktadır.</strong>
+                                                  </div>
+                                              </div>     
+                                              <div id="lawsuit-{{customer}}" class="tab-pane fade">
+                                                  <table id="datatable" class="table table-striped table-bordered">
+                                                      <thead>
+                                                        <tr>
+                                                          <th>Hareket No</th>
+                                                          <th>Müşteri No</th>
+                                                          <th>Mahkeme Adı</th>
+                                                          <th>Dosya</th> 
+                                                          <th>Takip Türü</th> 
+                                                          <th>Takip Açılış Tarihi</th>
+                                                          <th>Takip Tutarı</th> 
+                                                          <th>Hukuki Statü</th> 
+                                                          <th>Taraf Tipi</th> 
+                                                          <th>Durum</th> 
+                                                          <th>Diğer</th> 
+                                                        </tr>
+                                                      </thead>           
+                                                      <tbody>
+                                                        <tr *ngFor="let lawsuit of lawsuits">
+                                                          <td>{{ lawsuit['trxNo'] }} </td>
+                                                          <td>{{ lawsuit['aprCode'] }} </td>                                       
+                                                          <td>{{ lawsuit['lawCourtName'] }}</td>  
+                                                          <td>{{ lawsuit['docNo'] }}</td>  
+                                                          <td>{{ lawsuit['traceTypeName'] }}</td>  
+                                                          <td>{{ lawsuit['paymentWarrDate'] }}</td> 
+                                                          <td>{{ lawsuit['fileAmount'] }}</td>
+                                                          <td>{{ lawsuit['lawStatusName'] }}</td>
+                                                          <td>{{ lawsuit['partTypeName'] }}</td>
+                                                          <td>{{ lawsuit['inactiveFlag'] }}</td>
+                          
+                                                          <td>  <div class="dropdown">
+                                                              <button class="btn-info dropdown-toggle" data-toggle="dropdown">
+                                                                <span class="glyphicon glyphicon-align-left"></span> 
+                                                                <span class="caret"></span></button>
+                                                              <ul class="dropdown-menu">
+                                                                <li><a>Krediler</a></li>
+                                                                <li><a>Taraflar</a></li>
+                                                              </ul>
+                                                            </div></td>                       
+                                                        </tr>                    
+                                                      </tbody>
+                                                  </table>              
+                                                  <div class="alert alert-warning alert-dismissible fade in" role="alert" style="text-align: center" *ngIf="lawsuits == 0">                            
+                                                      <strong>Kayıtlı icra bulunmamaktadır.</strong>
+                                                  </div>
+                                                </div>                       
+                                           </div>
+                                       </div>
+                                    </div>    
+                                  </div>
+                              </div>              
+                            </div>
+                        </div>
+                      </div>                                                       
+                    </div>
+                  </div>
+                </ul>                
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+   </div>
+
+
+

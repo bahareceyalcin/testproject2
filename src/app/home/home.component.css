@@ -1,0 +1,35 @@
+.column {
+    float: left;
+    padding: 10px;
+}
+
+/* Left and right column */
+.column.side {
+    width: 20%;
+}
+
+/* Middle column */
+.column.middle {
+    width: 50%;
+}
+
+/* Clear floats after the columns */
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+h2{
+    font-size: 24px;
+}
+.panel-body{
+    height: 90px;
+    padding: 5px;
+}
+.panel:hover {background: #ddd;}
+    
+.material-icons{
+    font-size:48px;
+    padding-top: 20px;
+} 
+
